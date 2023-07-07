@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Simple SPA</title>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div id="content"></div>
+
+  <script>
+    // 각 페이지의 HTML 템플릿
+    const templates = {
+      home: `<h2>Welcome to the Home Page</h2>`,
+      about: `<h2>About Us</h2><p>Some information about us.</p>`,
+      contact: `<h2>Contact Us</h2><p>Contact information.</p>`,
+    };
+
+    // URL 변경 시 페이지 로드
+    function handleNavigation() {
+      const path = window.location.pathname;
+      const page = path.substring(1);
+      console.log(page)
+      loadPage(page);
+    }
+
+    // 페이지 로드
+    function loadPage(page) {
+      const contentDiv = document.getElementById('content');
+      contentDiv.innerHTML = templates[page] || '<h2>Page not found</h2>';
+    }
+
+    // 내부 링크 클릭 시 페이지 전환
+    document.addEventListener('click', function(event) {
+
+      if (event.target.matches('a')) {
+        event.preventDefault();
+        const url = event.target.getAttribute('href');
+        history.pushState(null, null, url);
+        handleNavigation();
+      }
+    });
+
+    // 초기 로드 시 페이지 로드
+    window.addEventListener('DOMContentLoaded', handleNavigation);
+  </script>
+</body>
+</html>
